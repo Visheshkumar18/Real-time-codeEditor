@@ -1,0 +1,11 @@
+@import "tailwindcss";
+@plugin "daisyui";
+/* Increase code editor font size */
+.CodeMirror {
+  font-size: 18px;   
+  line-height: 1.5;
+  min-height: calc(100vh);
+}
+.CodeMirror-linenumbers {
+  font-size: 16px;
+}
