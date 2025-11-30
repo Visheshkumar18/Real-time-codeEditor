@@ -21,6 +21,20 @@ io.on("connection", (socket) => {
   socket.on('code-change',({roomId,code})=>{
     io.to(roomId).emit('code-change',code)
   })
+  socket.on('disconnect',()=>{
+    for (let roomId in users) {
+    const existed = users[roomId].find(u => u.socketId === socket.id);
+    if (existed) {
+      const username=existed.username
+      users[roomId] = users[roomId].filter(u => u.socketId !== socket.id);
+
+      io.to(roomId).emit("user-left", {
+        clients: users[roomId],
+        username:username
+      });
+    }
+  }
+  })
 });
 
 const Port = process.env.PORT || "3000";

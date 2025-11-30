@@ -13,7 +13,6 @@ const InputField = () => {
         toast.success('created a new room')
     }
     const joinRoom=()=>{
-      console.log(roomId)
         if(!roomId||!username){
             toast.error('Enter the all field')
             return;
