@@ -1,9 +1,29 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Client from '../components/Client'
 import CodeEditor from '../components/CodeEditor'
+import socket from '../socket'
+import {useLocation, useParams} from "react-router-dom"
+import toast from 'react-hot-toast'
 
 const Editor = () => {
-  const [clients,setClients]=useState([{socketId:1,username:"vishesh"},{socketId:2,username:"Rohit"}])
+  const {roomId}=useParams();
+  const location=useLocation();
+  const{username}=location.state;
+  const [clients,setClients]=useState([])
+  useEffect(()=>{
+   socket.emit('join-room',{roomId,username});
+   socket.on('joined',({clients,socketId,newUser})=>{
+    if(socketId!=socket.id){
+      toast.success(`${newUser} is joined the room`)
+    }
+    console.log(clients)
+    setClients(clients);
+  })
+   return ()=>{
+    socket.off('joined')
+    socket.off('join-room')
+   }
+  },[])
   return (
     <div className='flex bg-black w-screen h-screen'>
       {/* left */}
@@ -26,7 +46,7 @@ const Editor = () => {
       </div>
       {/* right */}
       <div className='w-10/12 h-screen flex'>
-         <CodeEditor/>
+         <CodeEditor roomId={roomId} socket={socket}/>
       </div>
       
     </div>

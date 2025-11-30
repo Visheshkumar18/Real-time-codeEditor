@@ -13,6 +13,7 @@ const InputField = () => {
         toast.success('created a new room')
     }
     const joinRoom=()=>{
+      console.log(roomId)
         if(!roomId||!username){
             toast.error('Enter the all field')
             return;
@@ -47,7 +48,7 @@ const InputField = () => {
   placeholder="User Name" />
 
   <button className="btn btn-success w-xs mt-4 text-black font-bold" onClick={joinRoom}>Join</button>
-  <span className='text-sm mt-3'> If you don't have an invite then create : <a href='' onClick={createNewRoom} className='text-green-400 font-semibold'>New Room</a></span>
+  <span className='text-sm mt-3'> If you don't have an invite then create : <a  onClick={createNewRoom} className='text-green-400 font-semibold cursor-pointer'>New Room</a></span>
 </fieldset>
   )
 }
